@@ -1,0 +1,35 @@
+@startuml
+
+' Interface
+interface MessageSender
+
+' Implementações
+class EmailSender
+class SMSSender
+
+SMSSender ..|> MessageSender
+EmailSender ..|> MessageSender
+
+' Abstração Bridge
+abstract class Notification
+
+' Especializações
+class SimpleNotification
+class UrgentNotification
+
+Notification <|-- SimpleNotification
+Notification <|-- UrgentNotification
+
+Notification --> MessageSender
+
+' Classes auxiliares
+class MessageFormatter
+class NotificationLogger
+
+SimpleNotification --> MessageFormatter
+SimpleNotification --> NotificationLogger
+
+UrgentNotification --> MessageFormatter
+UrgentNotification --> NotificationLogger
+
+@enduml
