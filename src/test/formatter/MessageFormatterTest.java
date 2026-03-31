@@ -1,23 +1,26 @@
 package formatter;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class MessageFormatterTest {
 
     @Test
-    void shouldFormatSimpleMessage() {
+    void shouldFormatUrgentMessageCorrectly() {
         MessageFormatter formatter = new MessageFormatter();
-        String result = formatter.formatSimple("Teste");
 
-        assertEquals("Teste", result);
+        String result = formatter.formatUrgent("Servidor caiu!");
+
+        assertEquals("[URGENTE] Servidor caiu!", result);
     }
 
     @Test
-    void shouldFormatUrgentMessage() {
+    void shouldKeepSimpleMessageUnchanged() {
         MessageFormatter formatter = new MessageFormatter();
-        String result = formatter.formatUrgent("Alerta");
 
-        assertEquals("[URGENTE] Alerta", result);
+        String result = formatter.formatSimple("Bem-vindo!");
+
+        assertEquals("Bem-vindo!", result);
     }
 }

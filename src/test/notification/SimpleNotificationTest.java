@@ -8,12 +8,24 @@ import static org.mockito.Mockito.*;
 class SimpleNotificationTest {
 
     @Test
-    void shouldSendSimpleMessageCorrectly() {
+    void shouldSendWelcomeMessageViaSMS() {
         MessageSender sender = mock(MessageSender.class);
         SimpleNotification notification = new SimpleNotification(sender);
 
-        notification.notifyUser("Olá");
+        String message = "Bem-vindo ao sistema!";
+        notification.notifyUser(message);
 
-        verify(sender).send("Olá");
+        verify(sender).send("Bem-vindo ao sistema!");
+    }
+
+    @Test
+    void shouldSendEventReminder() {
+        MessageSender sender = mock(MessageSender.class);
+        SimpleNotification notification = new SimpleNotification(sender);
+
+        String message = "Seu evento começa em 10 minutos.";
+        notification.notifyUser(message);
+
+        verify(sender).send("Seu evento começa em 10 minutos.");
     }
 }

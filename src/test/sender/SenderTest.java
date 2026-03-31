@@ -2,21 +2,42 @@ package sender;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SenderTest {
 
     @Test
-    void shouldSendEmailWithoutError() {
-        MessageSender sender = new EmailSender();
+    void shouldSendEmailWithCorrectMessage() {
+        PrintStream originalOut = System.out;
 
-        assertDoesNotThrow(() -> sender.send("Teste Email"));
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        MessageSender sender = new EmailSender();
+        sender.send("Servidor caiu!");
+
+        System.setOut(originalOut);
+
+        String result = output.toString().trim();
+        assertTrue(result.contains("EMAIL enviado: Servidor caiu!"));
     }
 
     @Test
-    void shouldSendSMSWithoutError() {
-        MessageSender sender = new SMSSender();
+    void shouldSendSMSWithCorrectMessage() {
+        PrintStream originalOut = System.out;
 
-        assertDoesNotThrow(() -> sender.send("Teste SMS"));
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(output));
+
+        MessageSender sender = new SMSSender();
+        sender.send("Bem-vindo ao sistema!");
+
+        System.setOut(originalOut);
+
+        String result = output.toString().trim();
+        assertTrue(result.contains("SMS enviado: Bem-vindo ao sistema!"));
     }
 }
